@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <br/>
+    <div class="btn-toolbar" role="toolbar" aria-label="...">
+
+        <a id="linkLicitacion" routerLink="./" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+            class="btn btn-default">
+            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+            Inicio
+        </a>
+        <a id="linkListarLicitacion" routerLink="./listar" routerLinkActive="active" class="btn btn-default">
+            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            Listar Propuestas
+        </a>
+        <a id="linkCrearLicitacion" routerLink="./crear" routerLinkActive="active" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            Crear Propuesta
+        </a>
+    </div>
+    <br/>
+
+    <router-outlet>
+    </router-outlet>
+
+</div>

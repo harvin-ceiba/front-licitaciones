@@ -1,0 +1,66 @@
+<div class="container">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><strong>Crear Licitaci&oacute;n</strong></h3>
+        </div>
+        <div class="panel-body">
+            <form [formGroup]="licitacionForm" (ngSubmit)="guardarLicitacion()">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="codigo_licitacion" class="control-label">C&oacute;digo</label>
+                        <input validar type="text" class="form-control" id="codigo_licitacion" name="codigo_licitacion"
+                            placeholder="C&oacute;digo" formControlName="codigo" autocomplete="off">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="nombre_licitacion" class="control-label">Nombre</label>
+                        <input validar type="text" class="form-control" id="nombre_licitacion" name="nombre_licitacion"
+                            placeholder="Nombre" formControlName="nombre" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="descripcion_licitacion" class="control-label">Descripción</label>
+                    <textarea validar class="form-control" rows="3" id="descripcion_licitacion"
+                        name="descripcion_licitacion" placeholder="Descripción"
+                        formControlName="descripcion"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="fecha_inicio_licitacion" class="control-label">Fecha Inicio</label>
+                        <input validar type="date" class="form-control" id="fecha_inicio_licitacion" name="fecha_inicio_licitacion"
+                            placeholder="Fecha Inicio" formControlName="fechaInicio" autocomplete="off">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="fecha_fin_licitacion" class="control-label">Fecha Fin</label>
+                        <input validar type="date" class="form-control" id="fecha_fin_licitacion" name="fecha_fin_licitacion"
+                            placeholder="Fecha Fin" formControlName="fechaFin" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="presupuesto_licitacion" class="control-label">Presupuesto</label>
+                        <input validar type="number" class="form-control" id="presupuesto_licitacion" name="presupuesto_licitacion"
+                            placeholder="Presupuesto" formControlName="presupuesto" autocomplete="off">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="estado_licitacion" class="control-label">Estado</label>
+                        <h4><span class="label label-{{licitacionForm.get('estado').value==1? 'success': 'default'}}">{{licitacionForm.get('estado').value == 1? 'Publicada': 'En edición'}}</span></h4>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group col-md-12">
+                    <button type="submit" class="btn btn-success" [disabled]="!licitacionForm.valid">Guardar</button>&nbsp;
+                    <button type="submit" class="btn btn-default">Cancelar</button>
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
