@@ -4,8 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from '@home/home.component';
-import { ProductoModule } from '@producto/producto.module';
 import { LicitacionModule } from '@licitacion/licitacion.module';
+import { PropuestaModule } from '@propuesta/propuesta.module';
 import { CoreModule } from '@core/core.module';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -18,8 +18,8 @@ import { CookieService } from 'ngx-cookie-service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ProductoModule,
     LicitacionModule,
+    PropuestaModule,
     CoreModule
   ],
   providers: [CookieService],
