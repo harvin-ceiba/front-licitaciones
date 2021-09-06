@@ -1,46 +1,56 @@
-<div id="panel-lista-productos">
-    <div class="panel-lista-productos">
-        <div class="panel panel-default" *ngFor="let item of listaLicitaciones | async">
-            <div class="panel-heading"><strong>{{item.codigo}} - {{item.nombre}}</strong></div>
-            <div class="panel-body">
-                <strong>Descripci&oacute;n: </strong> {{item.descripcion}}<br />
-                <strong>Fecha: </strong> {{item.fechaInicio | date: 'yyyy-MM-dd'}} al {{item.fechaFin | date:
-                'yyyy-MM-dd'}} <br />
-                <strong>Presupuesto: </strong> {{item.presupuesto | currency: 'COP':'symbol-narrow'}}<br />
-                <strong>Estado: </strong><span
-                    class="label label-{{item.estado == 1? 'success': 'default'}}">{{item.estado == 1? 'Publicada': 'En
-                    edición'}}</span><br />
-            </div>
+<div id="panel-lista-licitaciones">
 
-            <div class="panel-footer">
-                <div class="row">
-                    <div class="col-md-6">
-                        <a id="linkCrearPropuesta" routerLink="/propuestas/crear"
-                            class="btn btn-success btn-sm" role="button">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            Crear Propuesta
-                        </a>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <a id="linkVerLicitacion" routerLink="./ver" routerLinkActive="active"
-                            class="btn btn-default btn-custom-size btn-sm" role="button">
-                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                            Ver
-                        </a>
-                        &nbsp;
-                        <a id="linkEditarLicitacion" routerLink="./borrar" routerLinkActive="active"
-                            class="btn btn-default btn-custom-size btn-sm" role="button">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                            Editar
-                        </a>
-                        &nbsp;
-                        <button (click)="eliminarLicitacion(0)" class="btn btn-danger btn-custom-size btn-sm">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            Eliminar
-                        </button>
+    <app-custom-alert *ngIf="showMessage" type="{{typeMessage}}" message="{{message}}"></app-custom-alert>
+
+    <div class="panel-lista-licitaciones">
+        <ng-container *ngIf="(listaLicitaciones$ | async) === undefined">Cargando licitaciones..</ng-container>
+
+        <ng-container *ngIf="(listaLicitaciones$ | async) as licitaciones">
+
+            <div *ngFor="let licitacion of licitaciones" id="licitacion-{{licitacion.id}}" class="panel panel-default panel-licitacion">
+                <div class="panel-heading"><strong>LICITACI&Oacute;N: {{licitacion.codigo}} - {{licitacion.nombre}}</strong></div>
+                <div class="panel-body">
+                    <strong>Descripci&oacute;n: </strong> {{licitacion.descripcion}}<br />
+                    <strong>Fecha: </strong> {{licitacion.fechaInicio | date: 'yyyy-MM-dd'}} al {{licitacion.fechaFin | date: 'yyyy-MM-dd'}} <br />
+                    <strong>Presupuesto: </strong> {{licitacion.presupuesto | currency: 'COP':'symbol-narrow'}}<br />
+                    <strong>Estado: </strong><span class="label label-{{licitacion.estado == 1? 'success': 'default'}}">
+                        {{licitacion.estado == 1? 'Publicada': 'En edición'}}</span><br />
+                </div>
+
+                <div class="panel-footer">
+                    <div class="row">
+                        <div *ngIf="!isAdmin" class="col-md-6">
+                            <a id="linkCrearPropuesta-{{licitacion.id}}" routerLink="/propuesta/crear/{{licitacion.id}}"
+                                class="btn btn-success btn linkCrearPropuesta" role="button">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                Crear Propuesta
+                            </a>
+                        </div>
+                        <div *ngIf="isAdmin" class="col-md-12 text-right">
+                            <a id="linkVerLicitacion-{{licitacion.id}}" routerLink="/licitacion/ver/{{licitacion.id}}"
+                                routerLinkActive="active"
+                                class="btn btn-default btn-custom-size btn-sm linkVerLicitacion" role="button">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                Ver
+                            </a>
+                            &nbsp;
+                            <a id="linkEditarLicitacion-{{licitacion.id}}"
+                                routerLink="/licitacion/editar/{{licitacion.id}}" routerLinkActive="active"
+                                class="btn btn-default btn-custom-size btn-sm linkEditarLicitacion" role="button">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                Editar
+                            </a>
+                            &nbsp;
+                            <button (click)="eliminarLicitacion(licitacion.id)"
+                                class="btn btn-danger btn-custom-size btn-sm linkEliminarLicitacion">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                Eliminar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+        </ng-container>
     </div>
 </div>

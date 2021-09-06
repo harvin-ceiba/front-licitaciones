@@ -1,0 +1,60 @@
+<div id="panel-licitacion">
+    <div class="panel-licitacion">
+        <div class="panel panel-default">
+            <div class="panel-heading"><strong>LICITACI&Oacute;N: {{currentLicitacion.codigo}} -
+                    {{currentLicitacion.nombre}}</strong></div>
+            <div class="panel-body">
+                <strong>Descripci&oacute;n: </strong>{{currentLicitacion.descripcion}}<br />
+                <strong>Fecha: </strong>{{currentLicitacion.fechaInicio | date: 'yyyy-MM-dd'}} al
+                {{currentLicitacion.fechaFin | date:
+                'yyyy-MM-dd'}}<br />
+                <strong>Presupuesto: </strong>{{currentLicitacion.presupuesto | currency: 'COP':'symbol-narrow'}}<br />
+                <strong>Estado: </strong><span
+                    class="label label-{{currentLicitacion.estado == 1? 'success': 'default'}}">{{currentLicitacion.estado
+                    == 1? 'Publicada': 'En edición'}}</span><br />
+                <strong>Requerimientos: </strong>
+                    <span *ngIf="!mostrarRequerimientos" class="label label-default">Sin definir</span>
+                    <span *ngFor="let req of listaRequerimientosLicitacion" class="label label-primary" style="margin-right: 5px;">REQ. {{req.id}} ({{req.pesoPorcentual}} %)</span>
+            </div>
+        </div>
+
+        <div class="messages" *ngIf="!mostrarPropuestas">
+            <app-custom-alert type="info" message="<strong>Mensaje:</strong> No se han encontrado propuestas asociadas"></app-custom-alert>
+        </div>
+
+        <div *ngIf="mostrarPropuestas" id="panel-propuestas">
+            <div class="panel-propuestas">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading"><strong>PROPUESTAS</strong></div>
+
+                    <!-- Table -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>T&iacute;tulo</th>
+                                <th>Nombre Cliente</th>
+                                <th>Descripci&oacute;n</th>
+                                <th>Valor</th>
+                                <th>Puntaje</th>
+                                <th>Publicaci&oacute;n</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let currentPropuesta of listaPropuestas; let i = index">
+                            <tr>
+                                <th scope="row">{{i + 1}}</th>
+                                <td>{{currentPropuesta.nombre}}</td>
+                                <td>{{currentPropuesta.nombreCliente}}</td>
+                                <td>{{currentPropuesta.descripcion}}</td>
+                                <td>{{currentPropuesta.valor | currency: 'COP':'symbol-narrow'}}</td>
+                                <td>{{currentPropuesta.puntaje}}</td>
+                                <td>{{currentPropuesta.fechaPublicacion | date: 'yyyy-MM-dd h:mm a'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

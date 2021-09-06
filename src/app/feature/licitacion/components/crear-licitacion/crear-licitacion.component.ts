@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LicitacionService } from '@licitacion/shared/service/licitacion.service';
 
+const VALOR_MOSTRAR_MENSAJE = true;
+const VALOR_NO_MOSTRAR_MENSAJE = false;
+const VALOR_TIPO_MENSAJE_OK = 'success';
+const VALOR_TEXTO_MENSAJE_OK = 'Licitacion registrada satisfactoriamente';
+const VALOR_TIPO_MENSAJE_ERROR = 'danger';
+
 const LONGITUD_MINIMA_PERMITIDA_TEXTO_CODIGO = 5;
 const LONGITUD_MAXIMA_PERMITIDA_TEXTO_CODIGO = 25;
 const LONGITUD_MINIMA_PERMITIDA_TEXTO_NOMBRE = 10;
@@ -15,17 +21,19 @@ const LONGITUD_MAXIMA_PERMITIDA_TEXTO_NOMBRE = 125;
 export class CrearLicitacionComponent implements OnInit {
 
   licitacionForm: FormGroup;
+  showMessage = false;
+  typeMessage: string;
+  message: string;
 
-  constructor(
-    private fb: FormBuilder, 
-    protected licitacionService: LicitacionService) { }
+  constructor(private formBuilder: FormBuilder, protected licitacionService: LicitacionService) { }
 
   ngOnInit(): void {
     this.construirFormulario();
   }
 
   private construirFormulario() {
-    this.licitacionForm = this.fb.group({
+    this.showMessage = VALOR_NO_MOSTRAR_MENSAJE;
+    this.licitacionForm = this.formBuilder.group({
       codigo: ['', [
         Validators.required,
         Validators.minLength(LONGITUD_MINIMA_PERMITIDA_TEXTO_CODIGO),
@@ -39,19 +47,24 @@ export class CrearLicitacionComponent implements OnInit {
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
       presupuesto: ['', [Validators.required]],
-      estado: [null, []]
+      estado: ['']
     });
   }
 
   guardarLicitacion() {
-    this.licitacionService.guardar(this.licitacionForm.value).subscribe({
-      next: data => {
-        console.log("There is data", data)
+    this.licitacionService.guardar(this.licitacionForm.value).subscribe(
+      () => {
+        this.showMessage = VALOR_MOSTRAR_MENSAJE;
+        this.typeMessage = VALOR_TIPO_MENSAJE_OK;
+        this.message = VALOR_TEXTO_MENSAJE_OK;
+        this.licitacionForm.reset();
       },
-      error: error => {
-        console.error(error);
+      error => {
+        this.showMessage = VALOR_MOSTRAR_MENSAJE;
+        this.typeMessage = VALOR_TIPO_MENSAJE_ERROR;
+        this.message = error.error.mensage;
       }
-    });
+    );
   }
 
 }

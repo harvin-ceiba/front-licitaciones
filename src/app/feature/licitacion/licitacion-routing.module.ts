@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { CrearLicitacionComponent } from './components/crear-licitacion/crear-licitacion.component';
 import { ListarLicitacionComponent } from './components/listar-licitacion/listar-licitacion.component';
 import { LicitacionComponent } from './components/licitacion/licitacion.component';
+import { VerLicitacionComponent } from './components/ver-licitacion/ver-licitacion.component';
+import { EditarLicitacionComponent } from './components/editar-licitacion/editar-licitacion.component';
 
 const routes: Routes = [
   {
@@ -10,13 +12,21 @@ const routes: Routes = [
     component: LicitacionComponent,
     children: [
       {
+        path: 'listar',
+        component: ListarLicitacionComponent
+      },
+      {
         path: 'crear',
         component: CrearLicitacionComponent
       },
       {
-        path: 'listar',
-        component: ListarLicitacionComponent
-      }
+        path: 'ver/:id',
+        component: VerLicitacionComponent
+      },
+      {
+        path: 'editar/:id',
+        component: EditarLicitacionComponent
+      },
     ]
   }
 ];

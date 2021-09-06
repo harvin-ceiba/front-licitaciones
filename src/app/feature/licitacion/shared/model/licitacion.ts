@@ -2,14 +2,15 @@ export class Licitacion {
 
     id: number;
     codigo: string;
-    nombre?: string;
+    nombre: string;
     descripcion: string;
-    presupuesto?: number;
-    fechaInicio?: Date;
-    fechaFin?: Date;
+    presupuesto: number;
+    fechaInicio: Date;
+    fechaFin: Date;
     estado?: number;
 
-    constructor(id: number, codigo: string, nombre: string, descripcion: string, presupuesto: number, 
+    constructor(
+        id: number, codigo: string, nombre: string, descripcion: string, presupuesto: number,
         fechaInicio: Date, fechaFin: Date, estado: number) {
         this.id = id;
         this.codigo = codigo;
