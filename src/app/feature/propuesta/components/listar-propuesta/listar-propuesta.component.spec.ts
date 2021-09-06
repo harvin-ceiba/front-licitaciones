@@ -11,25 +11,25 @@ import { of, throwError } from 'rxjs';
 import { ListarPropuestaComponent } from './listar-propuesta.component';
 
 const VALOR_TIPO_MENSAJE_ERROR = 'danger';
-const THROW_ERROR = { error: { mensaje: "Mensaje de error" }};
+const THROW_ERROR = { error: { mensaje: 'Mensaje de error' }};
 
 describe('ListarPropuestaComponent', () => {
   let component: ListarPropuestaComponent;
   let fixture: ComponentFixture<ListarPropuestaComponent>;
-  let route: ActivatedRoute; 
+  let route: ActivatedRoute;
   let propuestaService: PropuestaService;
 
   const dummyPropuestas: Propuesta[] = [
     new Propuesta(
-      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10, 
+      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10,
       new Date('2021-09-01'), new Date('2021-09-15'), 1
     ),
     new Propuesta(
-      2, 1, 'PROPUESTA 2', 'DESCRIPCION2', 'NOMBRE CLIENTE 2', 2000, 10, 
+      2, 1, 'PROPUESTA 2', 'DESCRIPCION2', 'NOMBRE CLIENTE 2', 2000, 10,
       new Date('2021-09-01'), new Date('2021-09-15'), 1
     ),
     new Propuesta(
-      3, 2, 'PROPUESTA 3', 'DESCRIPCION3', 'NOMBRE CLIENTE 3', 2000, 10, 
+      3, 2, 'PROPUESTA 3', 'DESCRIPCION3', 'NOMBRE CLIENTE 3', 2000, 10,
       new Date('2021-09-01'), new Date('2021-09-15'), 1
     )
   ];
@@ -95,6 +95,6 @@ describe('ListarPropuestaComponent', () => {
       // Assert
       expect(component.typeMessage).toEqual(VALOR_TIPO_MENSAJE_ERROR);
     });
-  
+
   });
 });

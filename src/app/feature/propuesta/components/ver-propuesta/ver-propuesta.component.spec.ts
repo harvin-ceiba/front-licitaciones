@@ -15,14 +15,14 @@ import { VerPropuestaComponent } from './ver-propuesta.component';
 describe('VerPropuestaComponent', () => {
   let component: VerPropuestaComponent;
   let fixture: ComponentFixture<VerPropuestaComponent>;
-  let route: ActivatedRoute; 
+  let route: ActivatedRoute;
   let propuestaService: PropuestaService;
   let propuestaRequerimientoService: PropuestaRequerimientoService;
 
   const dummyRequerimientosPropuesta: PropuestaRequerimiento[] = [
     new PropuestaRequerimiento(1, 1, 1),
     new PropuestaRequerimiento(2, 1, 2),
-    new PropuestaRequerimiento(3, 1, 3)  
+    new PropuestaRequerimiento(3, 1, 3)
   ];
 
   beforeEach(async () => {
@@ -64,7 +64,7 @@ describe('VerPropuestaComponent', () => {
     // Arrange
     route.snapshot.params.id = '1';
     const dummyPropuesta = new Propuesta(
-      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10, 
+      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10,
       new Date('2021-09-01'), new Date('2021-09-15'), 1
     );
     spyOn(propuestaService, 'consultarPorId').and.returnValue(of(dummyPropuesta));

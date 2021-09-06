@@ -25,7 +25,7 @@ const THROW_ERROR = { error: { mensaje: 'Mensaje de error' }};
 describe('EditarLicitacionComponent', () => {
   let component: EditarLicitacionComponent;
   let fixture: ComponentFixture<EditarLicitacionComponent>;
-  let route: ActivatedRoute; 
+  let route: ActivatedRoute;
   let licitacionService: LicitacionService;
 
   beforeEach(async () => {

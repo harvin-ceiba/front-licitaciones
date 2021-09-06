@@ -16,7 +16,7 @@ export class LicitacionPage {
     private divMensajeAlGuardar =  element(by.id('id-custom-message'));
 
     private listaLicitaciones = element.all(by.css('div.panel-licitacion'));
-    
+
     async clickBotonListarLicitaciones() {
         await this.linkListarLicitaciones.click();
     }

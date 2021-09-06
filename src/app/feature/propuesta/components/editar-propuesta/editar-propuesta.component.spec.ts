@@ -18,12 +18,12 @@ const VALOR_TIPO_MENSAJE_OK = 'success';
 const VALOR_TEXTO_MENSAJE_OK = 'Propuesta actualizada satisfactoriamente';
 const VALOR_TEXTO_MENSAJE_PUBLICACION_PROPUESTA_OK = 'Propuesta publicada satisfactoriamente';
 const VALOR_TIPO_MENSAJE_ERROR = 'danger';
-const THROW_ERROR = { error: { mensaje: "Mensaje de error" }};
+const THROW_ERROR = { error: { mensaje: 'Mensaje de error' }};
 
 describe('EditarPropuestaComponent', () => {
   let component: EditarPropuestaComponent;
   let fixture: ComponentFixture<EditarPropuestaComponent>;
-  let route: ActivatedRoute; 
+  let route: ActivatedRoute;
   let propuestaService: PropuestaService;
 
 
@@ -66,7 +66,7 @@ describe('EditarPropuestaComponent', () => {
   it('deberia consultar una propuesta', () => {
     route.snapshot.params.id = '1';
     const dummyPropuesta = new Propuesta(
-      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10, 
+      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10,
       new Date('2021-09-01'), new Date('2021-09-15'), 1
     );
     spyOn(propuestaService, 'consultarPorId').and.returnValue(of(dummyPropuesta));
@@ -80,7 +80,7 @@ describe('EditarPropuestaComponent', () => {
     spyOn(propuestaService, 'editar').and.returnValue(of(true));
     expect(component.propuestaForm.valid).toBeFalsy();
     const propuesta = new Propuesta(
-      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10, 
+      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10,
       new Date('2021-09-01'), new Date('2021-09-15'), 1
     );
     component.propuestaForm.controls.nombre.setValue(propuesta.nombre);
@@ -101,7 +101,7 @@ describe('EditarPropuestaComponent', () => {
     spyOn(propuestaService, 'editar').and.returnValue(throwError(THROW_ERROR));
     expect(component.propuestaForm.valid).toBeFalsy();
     const propuesta = new Propuesta(
-      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10, 
+      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10,
       new Date('2021-09-01'), new Date('2021-09-15'), 1
     );
     component.propuestaForm.controls.nombre.setValue(propuesta.nombre);

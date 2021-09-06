@@ -3,7 +3,7 @@ import { AppPage } from '../app.po';
 import { LicitacionPage } from '../page/licitacion/licitacion.po';
 import { browser } from 'protractor';
 
-const NUMERO_LICITACIONES = 15;
+const NUMERO_LICITACIONES = 21;
 
 describe('workspace-project Licitacion', () => {
     let page: AppPage;
