@@ -23,6 +23,7 @@ const THROW_ERROR = { error: { mensaje: "Mensaje de error" }};
 describe('EditarPropuestaComponent', () => {
   let component: EditarPropuestaComponent;
   let fixture: ComponentFixture<EditarPropuestaComponent>;
+  let route: ActivatedRoute; 
   let propuestaService: PropuestaService;
 
 
@@ -53,6 +54,7 @@ describe('EditarPropuestaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EditarPropuestaComponent);
     component = fixture.componentInstance;
+    route = TestBed.inject(ActivatedRoute);
     propuestaService = TestBed.inject(PropuestaService);
     fixture.detectChanges();
   });
@@ -62,6 +64,7 @@ describe('EditarPropuestaComponent', () => {
   });
 
   it('deberia consultar una propuesta', () => {
+    route.snapshot.params.id = '1';
     const dummyPropuesta = new Propuesta(
       1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10, 
       new Date('2021-09-01'), new Date('2021-09-15'), 1

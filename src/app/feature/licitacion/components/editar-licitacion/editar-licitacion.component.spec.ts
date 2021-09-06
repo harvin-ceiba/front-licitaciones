@@ -10,6 +10,7 @@ import { LicitacionService } from '@licitacion/shared/service/licitacion.service
 import { of, throwError } from 'rxjs';
 import { LicitacionRequerimientoComponent } from 'src/app/feature/licitacion-requerimiento/components/licitacion-requerimiento/licitacion-requerimiento.component';
 import { LicitacionRequerimientoModule } from 'src/app/feature/licitacion-requerimiento/licitacion-requerimiento.module';
+import { LicitacionRequerimientoService } from 'src/app/feature/licitacion-requerimiento/shared/service/licitacion-requerimiento.service';
 
 import { EditarLicitacionComponent } from './editar-licitacion.component';
 
@@ -24,6 +25,7 @@ const THROW_ERROR = { error: { mensaje: 'Mensaje de error' }};
 describe('EditarLicitacionComponent', () => {
   let component: EditarLicitacionComponent;
   let fixture: ComponentFixture<EditarLicitacionComponent>;
+  let route: ActivatedRoute; 
   let licitacionService: LicitacionService;
 
   beforeEach(async () => {
@@ -38,7 +40,7 @@ describe('EditarLicitacionComponent', () => {
         LicitacionRequerimientoModule
       ],
       providers: [
-        LicitacionService, HttpService,
+        LicitacionService, LicitacionRequerimientoService, HttpService,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -52,8 +54,9 @@ describe('EditarLicitacionComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditarLicitacionComponent);
-    component = fixture.componentInstance;
+    route = TestBed.inject(ActivatedRoute);
     licitacionService = TestBed.inject(LicitacionService);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
@@ -66,6 +69,7 @@ describe('EditarLicitacionComponent', () => {
   });
 
   it('deberia consultar una licitacion', () => {
+    route.snapshot.params.id = '1';
     const dummyLicitacion = new Licitacion(
       1, 'CODIGO1', 'TITULO_LICITACION1', 'DESCRIPCION1',
       1000, new Date('2021-08-01'), new Date('2021-08-31'), 0
@@ -78,6 +82,7 @@ describe('EditarLicitacionComponent', () => {
   });
 
   it('deberia editar una licitacion', () => {
+    route.snapshot.params.id = '1';
     spyOn(licitacionService, 'editar').and.returnValue(of(true));
     expect(component.licitacionForm.valid).toBeFalsy();
 
@@ -104,6 +109,7 @@ describe('EditarLicitacionComponent', () => {
   });
 
   it('deberia retornar error al editar una licitacion', () => {
+    route.snapshot.params.id = '1';
     spyOn(licitacionService, 'editar').and.returnValue(throwError(THROW_ERROR));
     expect(component.licitacionForm.valid).toBeFalsy();
 

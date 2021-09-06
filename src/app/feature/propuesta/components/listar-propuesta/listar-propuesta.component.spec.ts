@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpService } from '@core/services/http.service';
 import { Propuesta } from '@propuesta/shared/model/propuesta';
@@ -15,6 +16,7 @@ const THROW_ERROR = { error: { mensaje: "Mensaje de error" }};
 describe('ListarPropuestaComponent', () => {
   let component: ListarPropuestaComponent;
   let fixture: ComponentFixture<ListarPropuestaComponent>;
+  let route: ActivatedRoute; 
   let propuestaService: PropuestaService;
 
   const dummyPropuestas: Propuesta[] = [
@@ -48,6 +50,7 @@ describe('ListarPropuestaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ListarPropuestaComponent);
     component = fixture.componentInstance;
+    route = TestBed.inject(ActivatedRoute);
     propuestaService = TestBed.inject(PropuestaService);
     spyOn(propuestaService, 'consultarTodos').and.returnValue(of(dummyPropuestas));
     fixture.detectChanges();
@@ -60,6 +63,7 @@ describe('ListarPropuestaComponent', () => {
   describe('Metodo Listar', () => {
 
     it('deberia obtener las propuestas', () => {
+      route.snapshot.params.id = '1';
       component.listaPropuestas$.subscribe(resultado => {
         expect(3).toBe(resultado.length);
       });
@@ -71,6 +75,7 @@ describe('ListarPropuestaComponent', () => {
 
     it('deberia eliminar la propuesta seleccionada', () => {
       // Arrange
+      route.snapshot.params.id = '1';
       spyOn(propuestaService, 'eliminar').and.returnValue(of(true));
       component.listaPropuestas$ = of(dummyPropuestas);
       // Act
@@ -83,6 +88,7 @@ describe('ListarPropuestaComponent', () => {
 
     it('deberia obtener error al eliminar una licitacion', () => {
       // Arrange
+      route.snapshot.params.id = '1';
       spyOn(propuestaService, 'eliminar').and.returnValue(throwError(THROW_ERROR));
       // Act
       component.eliminarPropuesta(1, 1);

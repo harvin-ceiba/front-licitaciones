@@ -20,6 +20,7 @@ const THROW_ERROR = { error: { mensaje: "Mensaje de error" }};
 describe('CrearPropuestaComponent', () => {
   let component: CrearPropuestaComponent;
   let fixture: ComponentFixture<CrearPropuestaComponent>;
+  let route: ActivatedRoute;
   let propuestaService: PropuestaService;
 
   beforeEach(async () => {
@@ -48,6 +49,7 @@ describe('CrearPropuestaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CrearPropuestaComponent);
     component = fixture.componentInstance;
+    route = TestBed.inject(ActivatedRoute);
     propuestaService = TestBed.inject(PropuestaService);
     fixture.detectChanges();
   });
@@ -61,6 +63,7 @@ describe('CrearPropuestaComponent', () => {
   });
 
   it('deberia registrar una propuesta', () => {
+    route.snapshot.params.id = '1';
     spyOn(propuestaService, 'guardar').and.returnValue(of(true));
     expect(component.propuestaForm.valid).toBeFalsy();
     const propuesta = new Propuesta(
