@@ -47,7 +47,7 @@ describe('LicitacionService', () => {
   it('deberia consultar una licitacion', () => {
     const dummyId = 1;
     const dummyLicitacion = new Licitacion(
-      1, 'CODIGO1', 'NOMBRE1', 'DESCRIPCION1', 1000, 
+      1, 'CODIGO1', 'NOMBRE1', 'DESCRIPCION1', 1000,
       new Date('2021-08-01'), new Date('2021-08-31'), 0
     );
     service.consultarPorId(dummyId).subscribe(res => {

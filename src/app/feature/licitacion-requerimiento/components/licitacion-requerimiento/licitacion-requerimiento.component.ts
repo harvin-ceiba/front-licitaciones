@@ -31,7 +31,7 @@ export class LicitacionRequerimientoComponent implements OnInit {
 
 
   constructor(
-    private formBuilder: FormBuilder,     
+    private formBuilder: FormBuilder,
     protected requerimientoService: RequerimientoService,
     protected licitacionRequerimientoService: LicitacionRequerimientoService
   ) { }
@@ -52,8 +52,8 @@ export class LicitacionRequerimientoComponent implements OnInit {
   }
 
   obtenerListaRequerimientos(): void {
-    of(this.requerimientoService.consultar()).subscribe(requerimientos => {
-      this.listaRequerimientos = requerimientos;
+    of(this.requerimientoService.consultar()).subscribe(data => {
+      this.listaRequerimientos = data;
     });
   }
 

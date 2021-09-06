@@ -62,8 +62,7 @@ export class EditarLicitacionComponent implements OnInit {
 
   obtenerLicitacion(id: number): void {
     this.currentLicitacionId = id;
-    this.licitacionService.consultarPorId(id)
-      .subscribe(
+    this.licitacionService.consultarPorId(id).subscribe(
         data => {
           this.licitacionForm.patchValue(data);
         },

@@ -17,6 +17,7 @@ const VALOR_TIPO_MENSAJE_OK = 'success';
 const VALOR_TEXTO_MENSAJE_REQUERIMIENTO_OK = 'Requerimiento registrado satisfactoriamente';
 const VALOR_TEXTO_MENSAJE_ELIMINACION_REQUERIMIENTO_OK = 'Requerimiento eliminado satisfactoriamente';
 const VALOR_TIPO_MENSAJE_ERROR = 'danger';
+const THROW_ERROR = { error: { mensaje: 'Mensaje de error' }};
 
 describe('LicitacionRequerimientoComponent', () => {
   let component: LicitacionRequerimientoComponent;
@@ -35,7 +36,7 @@ describe('LicitacionRequerimientoComponent', () => {
   const dummyRequerimientosLicitacion: LicitacionRequerimiento[] = [
     new LicitacionRequerimiento(1, 1, 1, 25),
     new LicitacionRequerimiento(2, 1, 2, 25),
-    new LicitacionRequerimiento(3, 1, 3, 50)  
+    new LicitacionRequerimiento(3, 1, 3, 50)
   ];
 
   beforeEach(async () => {
@@ -84,28 +85,32 @@ describe('LicitacionRequerimientoComponent', () => {
   });
 
   it('deberia asociar un requerimiento a la licitacion', () => {
+    // Arrange
     spyOn(licitacionRequerimientoService, 'guardar').and.returnValue(of(true));
     expect(component.requerimientosForm.valid).toBeFalsy();
     component.requerimientosForm.controls.licitacionId.setValue(1);
     component.requerimientosForm.controls.requerimientoId.setValue(4);
     component.requerimientosForm.controls.pesoPorcentual.setValue(25);
     expect(component.requerimientosForm.valid).toBeTruthy();
+    // Act
     component.guardarRequerimiento();
-
+    // Assert
     expect(component.showMessageFormReq).toEqual(VALOR_MOSTRAR_MENSAJE);
     expect(component.typeMessageFormReq).toEqual(VALOR_TIPO_MENSAJE_OK);
     expect(component.messageFormReq).toEqual(VALOR_TEXTO_MENSAJE_REQUERIMIENTO_OK);
   });
 
   it('deberia retorna un error al asociar un requerimiento a la licitacion', () => {
-    spyOn(licitacionRequerimientoService, 'guardar').and.returnValue(throwError('Error'));
+    // Arrange
+    spyOn(licitacionRequerimientoService, 'guardar').and.returnValue(throwError(THROW_ERROR));
     expect(component.requerimientosForm.valid).toBeFalsy();
     component.requerimientosForm.controls.licitacionId.setValue(1);
     component.requerimientosForm.controls.requerimientoId.setValue(4);
     component.requerimientosForm.controls.pesoPorcentual.setValue(25);
     expect(component.requerimientosForm.valid).toBeTruthy();
+    // Act
     component.guardarRequerimiento();
-
+    // Assert
     expect(component.typeMessageFormReq).toEqual(VALOR_TIPO_MENSAJE_ERROR);
   });
 
@@ -119,13 +124,14 @@ describe('LicitacionRequerimientoComponent', () => {
     component.listaRequerimientosLicitacion.subscribe(resultado => {
       expect(resultado.length).toBe(2);
     });
-
-    expect(component.messageFormReq).toEqual(VALOR_TEXTO_MENSAJE_ELIMINACION_REQUERIMIENTO_OK);    
+    expect(component.showMessageFormReq).toEqual(VALOR_MOSTRAR_MENSAJE);
+    expect(component.typeMessageFormReq).toEqual(VALOR_TIPO_MENSAJE_OK);
+    expect(component.messageFormReq).toEqual(VALOR_TEXTO_MENSAJE_ELIMINACION_REQUERIMIENTO_OK);
   });
 
   it('deberia retornar un error al eliminar un requerimiento de la licitacion', () => {
     // Arrange
-    spyOn(licitacionRequerimientoService, 'eliminar').and.returnValue(throwError('Error'));
+    spyOn(licitacionRequerimientoService, 'eliminar').and.returnValue(throwError(THROW_ERROR));
     // Act
     component.eliminarRequerimiento(1, 1);
     // Assert

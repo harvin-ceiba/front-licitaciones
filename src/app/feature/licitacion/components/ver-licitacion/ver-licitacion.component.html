@@ -14,15 +14,15 @@
                     == 1? 'Publicada': 'En edición'}}</span><br />
                 <strong>Requerimientos: </strong>
                     <span *ngIf="!mostrarRequerimientos" class="label label-default">Sin definir</span>
-                    <span *ngFor="let req of listaRequerimientosLicitacion" class="label label-primary" style="margin-right: 5px;">REQ. {{req.id}} ({{req.pesoPorcentual}} %)</span>
+                    <span *ngFor="let req of listaRequerimientosLicitacion | async" class="label label-primary" style="margin-right: 5px;">REQ. {{req.id}} ({{req.pesoPorcentual}} %)</span>
             </div>
         </div>
 
-        <div class="messages" *ngIf="!mostrarPropuestas">
+        <div class="messages" *ngIf="(listaPropuestas | async) === undefined">
             <app-custom-alert type="info" message="<strong>Mensaje:</strong> No se han encontrado propuestas asociadas"></app-custom-alert>
         </div>
 
-        <div *ngIf="mostrarPropuestas" id="panel-propuestas">
+        <div *ngIf="(listaPropuestas | async)" id="panel-propuestas">
             <div class="panel-propuestas">
                 <div class="panel panel-default">
                     <!-- Default panel contents -->
@@ -37,18 +37,16 @@
                                 <th>Nombre Cliente</th>
                                 <th>Descripci&oacute;n</th>
                                 <th>Valor</th>
-                                <th>Puntaje</th>
                                 <th>Publicaci&oacute;n</th>
                             </tr>
                         </thead>
-                        <tbody *ngFor="let currentPropuesta of listaPropuestas; let i = index">
+                        <tbody *ngFor="let currentPropuesta of listaPropuestas | async; let i = index">
                             <tr>
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{currentPropuesta.nombre}}</td>
                                 <td>{{currentPropuesta.nombreCliente}}</td>
                                 <td>{{currentPropuesta.descripcion}}</td>
                                 <td>{{currentPropuesta.valor | currency: 'COP':'symbol-narrow'}}</td>
-                                <td>{{currentPropuesta.puntaje}}</td>
                                 <td>{{currentPropuesta.fechaPublicacion | date: 'yyyy-MM-dd h:mm a'}}</td>
                             </tr>
                         </tbody>

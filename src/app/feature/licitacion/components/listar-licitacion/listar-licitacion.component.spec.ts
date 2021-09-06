@@ -10,7 +10,7 @@ import { Licitacion } from '@licitacion/shared/model/licitacion';
 import { of, throwError } from 'rxjs';
 
 const VALOR_TIPO_MENSAJE_ERROR = 'danger';
-const THROW_ERROR = { error: { mensaje: "Mensaje de error" }};
+const THROW_ERROR = { error: { mensaje: 'Mensaje de error' }};
 
 
 describe('ListarLicitacionComponent', () => {
@@ -80,8 +80,7 @@ describe('ListarLicitacionComponent', () => {
       // Assert
       expect(component.typeMessage).toEqual(VALOR_TIPO_MENSAJE_ERROR);
     });
-  
+
   });
 
-  
 });

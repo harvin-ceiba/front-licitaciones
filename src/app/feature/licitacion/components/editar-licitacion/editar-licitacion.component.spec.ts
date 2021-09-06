@@ -18,7 +18,7 @@ const VALOR_TIPO_MENSAJE_OK = 'success';
 const VALOR_TEXTO_MENSAJE_LICITACION_OK = 'Licitacion actualizada satisfactoriamente';
 const VALOR_TEXTO_MENSAJE_PUBLICACION_LICITACION_OK = 'Licitacion publicada satisfactoriamente';
 const VALOR_TIPO_MENSAJE_ERROR = 'danger';
-const THROW_ERROR = { error: { mensaje: "Mensaje de error" }};
+const THROW_ERROR = { error: { mensaje: 'Mensaje de error' }};
 
 
 describe('EditarLicitacionComponent', () => {
@@ -42,13 +42,9 @@ describe('EditarLicitacionComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: {
-              params: {
-                id: 1
-              },
-            },
-          },
-        },
+            snapshot: { params: { id: 1} },
+          }
+        }
       ]
     })
     .compileComponents();
@@ -89,9 +85,9 @@ describe('EditarLicitacionComponent', () => {
       1, 'CODIGO1', 'TITULO_LICITACION1', 'DESCRIPCION1',
       1000, new Date('2021-08-01'), new Date('2021-08-31'), 0
     );
-    
+
     component.currentLicitacionId = licitacion.id;
-    component.licitacionForm.controls.id.setValue(licitacion.id)
+    component.licitacionForm.controls.id.setValue(licitacion.id);
     component.licitacionForm.controls.codigo.setValue(licitacion.codigo);
     component.licitacionForm.controls.nombre.setValue(licitacion.nombre);
     component.licitacionForm.controls.descripcion.setValue(licitacion.descripcion);
@@ -115,9 +111,9 @@ describe('EditarLicitacionComponent', () => {
       1, 'CODIGO1', 'TITULO_LICITACION1', 'DESCRIPCION1',
       1000, new Date('2021-08-01'), new Date('2021-08-31'), 0
     );
-    
+
     component.currentLicitacionId = licitacion.id;
-    component.licitacionForm.controls.id.setValue(licitacion.id)
+    component.licitacionForm.controls.id.setValue(licitacion.id);
     component.licitacionForm.controls.codigo.setValue(licitacion.codigo);
     component.licitacionForm.controls.nombre.setValue(licitacion.nombre);
     component.licitacionForm.controls.descripcion.setValue(licitacion.descripcion);
@@ -149,4 +145,5 @@ describe('EditarLicitacionComponent', () => {
 
     expect(component.typeMessage).toEqual(VALOR_TIPO_MENSAJE_ERROR);
   });
+
 });

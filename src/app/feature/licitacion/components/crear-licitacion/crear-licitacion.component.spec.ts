@@ -14,7 +14,7 @@ const VALOR_MOSTRAR_MENSAJE = true;
 const VALOR_TIPO_MENSAJE_OK = 'success';
 const VALOR_TIPO_MENSAJE_ERROR = 'danger';
 const VALOR_TEXTO_MENSAJE_OK = 'Licitacion registrada satisfactoriamente';
-const THROW_ERROR = { error: { mensaje: "Mensaje de error" }};
+const THROW_ERROR = { error: { mensaje: 'Mensaje de error' }};
 
 describe('CrearLicitacionComponent', () => {
   let component: CrearLicitacionComponent;
@@ -57,7 +57,7 @@ describe('CrearLicitacionComponent', () => {
 
     const licitacion = new Licitacion(
       1, 'CODIGO1', 'TITULO_LICITACION1', 'DESCRIPCION1',
-      1000, new Date('2021-08-01'), new Date('2021-08-31'), 0
+      1000, new Date('2021-09-01'), new Date('2021-09-30'), 0
     );
 
     component.licitacionForm.controls.codigo.setValue(licitacion.codigo);
@@ -81,7 +81,7 @@ describe('CrearLicitacionComponent', () => {
 
     const licitacion = new Licitacion(
       1, 'CODIGO1', 'TITULO_LICITACION1', 'DESCRIPCION1',
-      1000, new Date('2021-08-01'), new Date('2021-08-31'), 0
+      1000, new Date('2021-09-01'), new Date('2021-09-30'), 0
     );
 
     component.licitacionForm.controls.codigo.setValue(licitacion.codigo);

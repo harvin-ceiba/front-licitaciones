@@ -13,14 +13,12 @@ describe('LicitacionRequerimientoService', () => {
   let service: LicitacionRequerimientoService;
   const apiEndpointLicitaciones = `${environment.endpoint}/licitaciones`;
 
-
   beforeEach(() => {
     const injector = TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],
       providers: [LicitacionRequerimientoService, HttpService]
     });
     httpMock = injector.inject(HttpTestingController);
-
     service = TestBed.inject(LicitacionRequerimientoService);
   });
 
@@ -34,7 +32,7 @@ describe('LicitacionRequerimientoService', () => {
     const dummyRequerimientosLicitacion: LicitacionRequerimiento[] = [
       new LicitacionRequerimiento(1, 1, 1, 25),
       new LicitacionRequerimiento(2, 1, 2, 25),
-      new LicitacionRequerimiento(3, 1, 3, 50)  
+      new LicitacionRequerimiento(3, 1, 3, 50)
     ];
 
     service.consultar(dummyIdLicitacion).subscribe(res => {
@@ -78,7 +76,7 @@ describe('LicitacionRequerimientoService', () => {
   it('deberia eliminar una licitacion', () => {
     const dummyIdLicitacion = 1;
     const dummyIdRequerimiento = 1;
-    
+
     service.eliminar(dummyIdLicitacion, dummyIdRequerimiento).subscribe((response) => {
       expect(response).toEqual(true);
     });

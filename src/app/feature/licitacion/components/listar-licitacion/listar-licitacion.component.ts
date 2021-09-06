@@ -39,19 +39,18 @@ export class ListarLicitacionComponent implements OnInit {
     this.listaLicitaciones$ = this.listaLicitaciones$.pipe(
       map((licitaciones: Licitacion[]) => licitaciones.filter(licitacion => licitacion.id !== id))
     );
-    this.licitacionService.eliminar(id)
-      .subscribe(
-        () => {
-          this.showMessage = VALOR_MOSTRAR_MENSAJE;
-          this.typeMessage = VALOR_TIPO_MENSAJE_OK;
-          this.message = VALOR_TEXTO_MENSAJE_OK;
-        },
-        error => {
-          this.showMessage = VALOR_MOSTRAR_MENSAJE;
-          this.typeMessage = VALOR_TIPO_MENSAJE_ERROR;
-          this.message = error.error.mensage;
-        }
-      );
+    this.licitacionService.eliminar(id).subscribe(
+      () => {
+        this.showMessage = VALOR_MOSTRAR_MENSAJE;
+        this.typeMessage = VALOR_TIPO_MENSAJE_OK;
+        this.message = VALOR_TEXTO_MENSAJE_OK;
+      },
+      error => {
+        this.showMessage = VALOR_MOSTRAR_MENSAJE;
+        this.typeMessage = VALOR_TIPO_MENSAJE_ERROR;
+        this.message = error.error.mensage;
+      }
+    );
   }
 
 }
