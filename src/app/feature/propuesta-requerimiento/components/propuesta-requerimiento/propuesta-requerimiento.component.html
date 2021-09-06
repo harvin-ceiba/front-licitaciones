@@ -1,0 +1,51 @@
+<div id="panel-requerimientos-propuesta">
+    <div class="panel-requerimientos-propuesta">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Requerimientos</strong></h3>
+            </div>
+            <div class="panel-body">
+                <app-custom-alert *ngIf="showMessageFormReq" type="{{typeMessageFormReq}}" message="{{messageFormReq}}">
+                </app-custom-alert>
+                <p>Por favor, defina a continuaci&oacute;n cada uno de los <em>requerimientos</em> asociados a la
+                    Propuesta:</p>
+                <form [formGroup]="requerimientosForm" class="form-inline">
+                    <div class="form-group">
+                        <label for="campo-requerimiento">Requerimiento:</label>&nbsp;
+                        <select id="campo-requerimiento" class="form-control" formControlName="requerimientoId">
+                            <option [value]="null" disabled>-- Seleccione --</option>
+                            <option *ngFor="let item of listaRequerimientos | async" [value]="item.id">
+                                {{item.descripcion}}
+                            </option>
+                        </select>
+                    </div>
+                    <button (click)="guardarRequerimiento()" class="btn btn-success">Agregar</button>
+                </form>
+            </div>
+
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let requerimiento of listaRequerimientosPropuesta | async; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>Requerimiento ID# {{requerimiento.requerimientoId}}</td>
+                        <td>
+                            <button
+                                (click)="eliminarRequerimiento(requerimiento.propuestaId, requerimiento.requerimientoId)"
+                                class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"
+                                    aria-hidden="true"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
