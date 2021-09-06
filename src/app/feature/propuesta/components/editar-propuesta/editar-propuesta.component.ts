@@ -6,7 +6,8 @@ import { PropuestaService } from '@propuesta/shared/service/propuesta.service';
 const VALOR_MOSTRAR_MENSAJE = true;
 const VALOR_NO_MOSTRAR_MENSAJE = false;
 const VALOR_TIPO_MENSAJE_OK = 'success';
-const VALOR_TEXTO_MENSAJE_OK = 'Propuesta registrada satisfactoriamente';
+const VALOR_TEXTO_MENSAJE_OK = 'Propuesta actualizada satisfactoriamente';
+const VALOR_TEXTO_MENSAJE_PUBLICACION_PROPUESTA_OK = 'Propuesta publicada satisfactoriamente';
 const VALOR_TIPO_MENSAJE_ERROR = 'danger';
 
 const LONGITUD_MINIMA_PERMITIDA_TEXTO_NOMBRE = 10;
@@ -15,13 +16,13 @@ const LONGITUD_MINIMA_PERMITIDA_TEXTO_NOMBRE_CLIENTE = 10;
 const LONGITUD_MAXIMA_PERMITIDA_TEXTO_NOMBRE_CLIENTE = 125;
 
 @Component({
-  selector: 'app-crear-propuesta',
-  templateUrl: './crear-propuesta.component.html',
-  styleUrls: ['./crear-propuesta.component.css']
+  selector: 'app-editar-propuesta',
+  templateUrl: './editar-propuesta.component.html',
+  styleUrls: ['./editar-propuesta.component.css']
 })
-export class CrearPropuestaComponent implements OnInit {
+export class EditarPropuestaComponent implements OnInit {
 
-  currentLicitacionId: number;
+  currentPropuestaId: number;
   propuestaForm: FormGroup;
   showMessage = false;
   typeMessage: string;
@@ -34,13 +35,15 @@ export class CrearPropuestaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.currentLicitacionId = this.route.snapshot.params.id;
     this.construirFormulario();
+    this.obtenerPropuesta(this.route.snapshot.params.id);
   }
 
   private construirFormulario() {
     this.showMessage = VALOR_NO_MOSTRAR_MENSAJE;
     this.propuestaForm = this.formBuilder.group({
+      id: [''],
+      licitacionId: [''],
       nombre: ['', [Validators.required,
         Validators.minLength(LONGITUD_MINIMA_PERMITIDA_TEXTO_NOMBRE),
         Validators.maxLength(LONGITUD_MAXIMA_PERMITIDA_TEXTO_NOMBRE)
@@ -52,17 +55,41 @@ export class CrearPropuestaComponent implements OnInit {
         Validators.maxLength(LONGITUD_MAXIMA_PERMITIDA_TEXTO_NOMBRE_CLIENTE)
       ]],
       valor: ['', [Validators.required]],
-      estado: ['']
+      estado: [''],
+      fechaCreacion: null,
+      fechaPublicacion: null
     });
   }
 
-  guardarPropuesta() {
-    this.propuestaService.guardar(this.currentLicitacionId, this.propuestaForm.value).subscribe({
-      next: () => {
+  obtenerPropuesta(id: number): void {
+    this.currentPropuestaId = id;
+    this.propuestaService.consultarPorId(id).subscribe(data => {
+      this.propuestaForm.patchValue(data);
+    });
+  }
+
+  editarPropuesta() {
+    this.propuestaService.editar(this.propuestaForm.value).subscribe(
+      () => {
         this.showMessage = VALOR_MOSTRAR_MENSAJE;
         this.typeMessage = VALOR_TIPO_MENSAJE_OK;
         this.message = VALOR_TEXTO_MENSAJE_OK;
-        this.propuestaForm.reset();
+      },
+      error => {
+        this.showMessage = VALOR_MOSTRAR_MENSAJE;
+        this.typeMessage = VALOR_TIPO_MENSAJE_ERROR;
+        this.message = error.error.mensaje;
+      }
+    );
+  }
+
+  publicarPropuesta(id: number) {
+    this.propuestaService.publicar(id).subscribe({
+      next: () => {
+        this.showMessage = VALOR_MOSTRAR_MENSAJE;
+        this.typeMessage = VALOR_TIPO_MENSAJE_OK;
+        this.message = VALOR_TEXTO_MENSAJE_PUBLICACION_PROPUESTA_OK;
+        this.propuestaForm.patchValue({ estado: 1, fechaPublicacion: new Date()});
       },
       error: error => {
         this.showMessage = VALOR_MOSTRAR_MENSAJE;

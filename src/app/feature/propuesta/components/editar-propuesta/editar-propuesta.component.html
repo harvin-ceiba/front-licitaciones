@@ -2,11 +2,10 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title"><strong>Nueva Propuesta</strong></h3>
+            <h3 class="panel-title"><strong>Editar Propuesta</strong></h3>
         </div>
         <div class="panel-body">
-
-            <form [formGroup]="propuestaForm" (ngSubmit)="guardarPropuesta()">
+            <form [formGroup]="propuestaForm">
 
                 <app-custom-alert *ngIf="showMessage" type="{{typeMessage}}" message="{{message}}"
                     id="id-custom-message" class="custom-message-{{typeMessage}}"></app-custom-alert>
@@ -46,12 +45,28 @@
                     </div>
                 </div>
 
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="fecha_creacion" class="control-label">Fecha Creaci&oacute;n</label>
+                        <div class="form-control-static"><span class="form-control-static">{{propuestaForm.get('fechaCreacion').value | date: 'yyyy-MM-dd h:mm a'}}</span></div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="fecha_publicacion" class="control-label">Fecha Publicaci&oacute;n</label>
+                        <div class="form-control-static"><span class="form-control-static">{{propuestaForm.get('fechaPublicacion').value | date: 'yyyy-MM-dd h:mm a'}}</span></div>
+                    </div>
+                </div>
+
                 <div class="form-group col-md-12">
-                    <button type="submit" class="btn btn-success" [disabled]="!propuestaForm.valid">
+                    <button (click)="editarPropuesta()"  class="btn btn-success" [disabled]="!propuestaForm.valid">
                         <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                         Guardar
                     </button>&nbsp;
-                    <a id="linkListarLicitacion" routerLink="/propuesta/listar" routerLinkActive="active" class="btn btn-default">
+                    <button *ngIf="propuestaForm.get('estado').value !== 1" (click)="publicarPropuesta(propuestaForm.get('id').value)" class="btn btn-default"
+                    [disabled]="!propuestaForm.valid">
+                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                    Publicar
+                </button>&nbsp;
+                    <a id="linkListarPropuesta" routerLink="/propuesta/listar" routerLinkActive="active" class="btn btn-default">
                         <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
                         Cancelar
                     </a>
@@ -60,4 +75,7 @@
             </form>
         </div>
     </div>
+
+    <app-propuesta-requerimiento [propuestaId]="currentPropuestaId"></app-propuesta-requerimiento>
+
 </div>

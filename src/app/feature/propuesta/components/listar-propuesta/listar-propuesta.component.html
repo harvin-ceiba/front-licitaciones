@@ -1,1 +1,49 @@
-<p>listar-propuesta works!</p>
+<div id="panel-lista-propuestas">
+    <app-custom-alert *ngIf="showMessage" type="{{typeMessage}}" message="{{message}}"></app-custom-alert>
+
+    <div class="panel-lista-propuestas">
+        <ng-container *ngIf="(listaPropuestas$ | async) === undefined">Cargando propuestas..</ng-container>
+
+        <ng-container *ngIf="(listaPropuestas$ | async) as propuestas">
+
+            <div *ngFor="let propuesta of propuestas" id="propuesta-{{propuesta.id}}" class="panel panel-default panel-propuesta">
+                <div class="panel-heading"><strong>Licitaci&oacute;n No. {{propuesta.licitacionId}} | T&iacute;tulo Propuesta: {{propuesta.nombre}}.</strong></div>
+                <div class="panel-body">
+                    <strong>Descripci&oacute;n: </strong>{{propuesta.descripcion}}<br />
+                    <strong>Cliente: </strong>{{propuesta.nombreCliente}}<br />
+                    <strong>Valor: </strong> {{propuesta.valor | currency: 'COP':'symbol-narrow'}}<br />
+                    <strong>Fecha Creaci&oacute;n: </strong>{{propuesta.fechaCreacion | date: 'yyyy-MM-dd'}} <br />
+                    <strong>Fecha Publicaci&oacute;n: </strong>{{propuesta.fechaPublicacion | date: 'yyyy-MM-dd'}} <br />
+                    <strong>Estado: </strong><span class="label label-{{propuesta.estado == 1? 'success': 'default'}}">
+                        {{propuesta.estado == 1? 'Publicada': 'En edición'}}</span><br />
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="text-right">
+                            <a id="linkVerPropuesta-{{propuesta.id}}" routerLink="/propuesta/ver/{{propuesta.id}}"
+                                routerLinkActive="active"
+                                class="btn btn-default btn-custom-size btn-sm linkVerPropuesta" role="button">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                Ver
+                            </a>
+                            &nbsp;
+                            <a id="linkEditarPropuesta-{{propuesta.id}}"
+                                routerLink="/propuesta/editar/{{propuesta.id}}" routerLinkActive="active"
+                                class="btn btn-default btn-custom-size btn-sm linkEditarPropuesta" role="button">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                Editar
+                            </a>
+                            &nbsp;
+                            <button (click)="eliminarPropuesta(propuesta.licitacionId, propuesta.id)"
+                                class="btn btn-danger btn-custom-size btn-sm linkEliminarPropuesta">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </ng-container>
+    </div>
+</div>

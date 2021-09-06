@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListarLicitacionComponent } from '@licitacion/components/listar-licitacion/listar-licitacion.component';
 import { CrearPropuestaComponent } from './components/crear-propuesta/crear-propuesta.component';
+import { EditarPropuestaComponent } from './components/editar-propuesta/editar-propuesta.component';
+import { ListarLicitacionPublicaComponent } from './components/listar-licitacion-publica/listar-licitacion-publica.component';
+import { ListarPropuestaComponent } from './components/listar-propuesta/listar-propuesta.component';
 import { PropuestaComponent } from './components/propuesta/propuesta.component';
+import { VerPropuestaComponent } from './components/ver-propuesta/ver-propuesta.component';
 
 const routes: Routes = [
   {
@@ -10,13 +13,25 @@ const routes: Routes = [
     component: PropuestaComponent,
     children: [
       {
-        path: 'crear',
+        path: 'listar_licitaciones',
+        component: ListarLicitacionPublicaComponent
+      },
+      {
+        path: 'crear/:id',
         component: CrearPropuestaComponent
       },
       {
         path: 'listar',
-        component: ListarLicitacionComponent
-      }
+        component: ListarPropuestaComponent
+      },
+      {
+        path: 'ver/:id',
+        component: VerPropuestaComponent
+      },
+      {
+        path: 'editar/:id',
+        component: EditarPropuestaComponent
+      },
     ]
   }
 ];

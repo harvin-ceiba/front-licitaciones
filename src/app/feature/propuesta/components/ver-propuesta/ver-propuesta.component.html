@@ -1,0 +1,21 @@
+<div id="panel-propuesta">
+    <div class="panel-propuesta">
+        <div class="panel panel-default">
+            <div class="panel-heading"><strong>Licitaci&oacute;n No. {{propuesta.licitacionId}} | T&iacute;tulo
+                    Propuesta: {{propuesta.nombre}}.</strong></div>
+            <div class="panel-body">
+                <strong>Descripci&oacute;n: </strong>{{propuesta.descripcion}}<br />
+                <strong>Cliente: </strong>{{propuesta.nombreCliente}}<br />
+                <strong>Valor: </strong> {{propuesta.valor | currency: 'COP':'symbol-narrow'}}<br />
+                <strong>Fecha Creaci&oacute;n: </strong>{{propuesta.fechaCreacion | date: 'yyyy-MM-dd'}} <br />
+                <strong>Fecha Publicaci&oacute;n: </strong>{{propuesta.fechaPublicacion | date: 'yyyy-MM-dd'}} <br />
+                <strong>Estado: </strong><span class="label label-{{propuesta.estado == 1? 'success': 'default'}}">
+                    {{propuesta.estado == 1? 'Publicada': 'En edición'}}</span><br />
+                <strong>Requerimientos: </strong>
+                    <span *ngIf="!mostrarRequerimientos" class="label label-default">Sin definir</span>
+                    <span *ngFor="let req of listaRequerimientosPropuesta | async" class="label label-primary" style="margin-right: 5px;">REQ. {{req.id}}</span>
+            
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div id="panel-lista-licitaciones">
+
+    <div class="panel-lista-licitaciones">
+        <ng-container *ngIf="(listaLicitacionesPublicadas | async) === undefined">Cargando licitaciones..</ng-container>
+
+        <ng-container *ngIf="(listaLicitacionesPublicadas | async) as licitacionesPublicadas">
+
+            <div class="panel panel-default" *ngFor="let licitacionPublicada of licitacionesPublicadas">
+                <div class="panel-heading"><strong>{{licitacionPublicada.codigo}} -
+                        {{licitacionPublicada.nombre}}</strong></div>
+                <div class="panel-body">
+                    <strong>Descripci&oacute;n: </strong> {{licitacionPublicada.descripcion}}<br />
+                    <strong>Fecha: </strong> {{licitacionPublicada.fechaInicio | date: 'yyyy-MM-dd'}} al
+                    {{licitacionPublicada.fechaFin | date:
+                    'yyyy-MM-dd'}} <br />
+                    <strong>Presupuesto: </strong> {{licitacionPublicada.presupuesto | currency:
+                    'COP':'symbol-narrow'}}<br />
+                    <strong>Estado: </strong><span
+                        class="label label-{{licitacionPublicada.estado == 1? 'success': 'default'}}">{{licitacionPublicada.estado
+                        == 1? 'Publicada': 'En
+                        edición'}}</span><br />
+                </div>
+
+                <div class="panel-footer">
+                    <div class="row">
+                        <div *ngIf="!isAdmin" class="col-md-6">
+                            <a id="linkCrearPropuesta" routerLink="/propuesta/crear/{{licitacionPublicada.id}}"
+                                class="btn btn-success btn-sm" role="button">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                Crear Propuesta
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </ng-container>
+    </div>
+</div>
