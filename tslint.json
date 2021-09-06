@@ -14,7 +14,7 @@
       "severity": "warning"
     },
     "component-class-suffix": true,
-    "no-feature-imports": true,
+    "no-feature-imports": false,
     "curly": true,
     "contextual-lifecycle": true,
     "directive-class-suffix": true,
