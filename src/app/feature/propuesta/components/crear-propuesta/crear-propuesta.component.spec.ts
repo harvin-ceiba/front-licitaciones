@@ -20,8 +20,12 @@ const THROW_ERROR = { error: { mensaje: 'Mensaje de error' }};
 describe('CrearPropuestaComponent', () => {
   let component: CrearPropuestaComponent;
   let fixture: ComponentFixture<CrearPropuestaComponent>;
-  let route: ActivatedRoute;
   let propuestaService: PropuestaService;
+
+  const dummyPropuesta = new Propuesta(
+    1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10,
+    new Date('2021-09-01'), new Date('2021-09-15'), 1
+  );
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -34,13 +38,8 @@ describe('CrearPropuestaComponent', () => {
         FormsModule
       ],
       providers: [
-        PropuestaService, HttpService,
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: { params: { id: 1} },
-          }
-        }
+        HttpService, PropuestaService,
+        { provide: ActivatedRoute, useValue: { snapshot: { params: { id: 1} } } }
       ]
     })
     .compileComponents();
@@ -49,7 +48,6 @@ describe('CrearPropuestaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CrearPropuestaComponent);
     component = fixture.componentInstance;
-    route = TestBed.inject(ActivatedRoute);
     propuestaService = TestBed.inject(PropuestaService);
     fixture.detectChanges();
   });
@@ -63,18 +61,13 @@ describe('CrearPropuestaComponent', () => {
   });
 
   it('deberia registrar una propuesta', () => {
-    route.snapshot.params.id = '1';
     spyOn(propuestaService, 'guardar').and.returnValue(of(true));
     expect(component.propuestaForm.valid).toBeFalsy();
-    const propuesta = new Propuesta(
-      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10,
-      new Date('2021-09-01'), new Date('2021-09-15'), 1
-    );
-    component.propuestaForm.controls.nombre.setValue(propuesta.nombre);
-    component.propuestaForm.controls.descripcion.setValue(propuesta.descripcion);
-    component.propuestaForm.controls.nombreCliente.setValue(propuesta.nombreCliente);
-    component.propuestaForm.controls.valor.setValue(propuesta.valor);
-    component.propuestaForm.controls.estado.setValue(propuesta.estado);
+    component.propuestaForm.controls.nombre.setValue(dummyPropuesta.nombre);
+    component.propuestaForm.controls.descripcion.setValue(dummyPropuesta.descripcion);
+    component.propuestaForm.controls.nombreCliente.setValue(dummyPropuesta.nombreCliente);
+    component.propuestaForm.controls.valor.setValue(dummyPropuesta.valor);
+    component.propuestaForm.controls.estado.setValue(dummyPropuesta.estado);
     expect(component.propuestaForm.valid).toBeTruthy();
 
     component.guardarPropuesta();
@@ -87,15 +80,11 @@ describe('CrearPropuestaComponent', () => {
   it('deberia retornar error al crear una licitacion', () => {
     spyOn(propuestaService, 'guardar').and.returnValue(throwError(THROW_ERROR));
     expect(component.propuestaForm.valid).toBeFalsy();
-    const propuesta = new Propuesta(
-      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10,
-      new Date('2021-09-01'), new Date('2021-09-15'), 1
-    );
-    component.propuestaForm.controls.nombre.setValue(propuesta.nombre);
-    component.propuestaForm.controls.descripcion.setValue(propuesta.descripcion);
-    component.propuestaForm.controls.nombreCliente.setValue(propuesta.nombreCliente);
-    component.propuestaForm.controls.valor.setValue(propuesta.valor);
-    component.propuestaForm.controls.estado.setValue(propuesta.estado);
+    component.propuestaForm.controls.nombre.setValue(dummyPropuesta.nombre);
+    component.propuestaForm.controls.descripcion.setValue(dummyPropuesta.descripcion);
+    component.propuestaForm.controls.nombreCliente.setValue(dummyPropuesta.nombreCliente);
+    component.propuestaForm.controls.valor.setValue(dummyPropuesta.valor);
+    component.propuestaForm.controls.estado.setValue(dummyPropuesta.estado);
     expect(component.propuestaForm.valid).toBeTruthy();
 
     component.guardarPropuesta();

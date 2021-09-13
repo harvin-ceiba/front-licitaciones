@@ -29,7 +29,7 @@ describe('ListarLicitacionPublicaComponent', () => {
         HttpClientModule,
         RouterTestingModule
       ],
-      providers: [LicitacionService, HttpService]
+      providers: [HttpService, LicitacionService]
     })
     .compileComponents();
   });

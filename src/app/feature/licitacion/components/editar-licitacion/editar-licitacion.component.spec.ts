@@ -11,6 +11,7 @@ import { of, throwError } from 'rxjs';
 import { LicitacionRequerimientoComponent } from 'src/app/feature/licitacion-requerimiento/components/licitacion-requerimiento/licitacion-requerimiento.component';
 import { LicitacionRequerimientoModule } from 'src/app/feature/licitacion-requerimiento/licitacion-requerimiento.module';
 import { LicitacionRequerimientoService } from 'src/app/feature/licitacion-requerimiento/shared/service/licitacion-requerimiento.service';
+import { RequerimientoService } from 'src/app/feature/requerimiento/shared/service/requerimiento.service';
 
 import { EditarLicitacionComponent } from './editar-licitacion.component';
 
@@ -25,10 +26,20 @@ const THROW_ERROR = { error: { mensaje: 'Mensaje de error' }};
 describe('EditarLicitacionComponent', () => {
   let component: EditarLicitacionComponent;
   let fixture: ComponentFixture<EditarLicitacionComponent>;
-  let route: ActivatedRoute;
   let licitacionService: LicitacionService;
+  let mockRequerimientoService: RequerimientoService;
+  let mockLicitacionRequerimientoService: LicitacionRequerimientoService;
+
+  const dummyLicitacion = new Licitacion(
+    1, 'CODIGO1', 'TITULO_LICITACION1', 'DESCRIPCION1',
+    1000, new Date('2021-08-01'), new Date('2021-08-31'), 0
+  );
 
   beforeEach(async () => {
+
+    mockRequerimientoService = jasmine.createSpyObj(['consultar']);
+    mockLicitacionRequerimientoService = jasmine.createSpyObj(['consultar', 'guardar', 'editar', 'eliminar']);
+
     await TestBed.configureTestingModule({
       declarations: [ EditarLicitacionComponent, LicitacionRequerimientoComponent ],
       imports: [
@@ -40,21 +51,17 @@ describe('EditarLicitacionComponent', () => {
         LicitacionRequerimientoModule
       ],
       providers: [
-        LicitacionService, LicitacionRequerimientoService, HttpService,
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: { params: { id: 1} },
-          }
-        }
+        HttpService, LicitacionService,
+        { provide: RequerimientoService, useValue: mockRequerimientoService },
+        { provide: LicitacionRequerimientoService, useValue: mockLicitacionRequerimientoService },
+        { provide: ActivatedRoute, useValue: { snapshot: { params: { id: 1 } } } }
       ]
     })
     .compileComponents();
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(EditarLicitacionComponent);
-    route = TestBed.inject(ActivatedRoute);
     licitacionService = TestBed.inject(LicitacionService);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -69,37 +76,24 @@ describe('EditarLicitacionComponent', () => {
   });
 
   it('deberia consultar una licitacion', () => {
-    route.snapshot.params.id = '1';
-    const dummyLicitacion = new Licitacion(
-      1, 'CODIGO1', 'TITULO_LICITACION1', 'DESCRIPCION1',
-      1000, new Date('2021-08-01'), new Date('2021-08-31'), 0
-    );
     spyOn(licitacionService, 'consultarPorId').and.returnValue(of(dummyLicitacion));
-
-    component.obtenerLicitacion(1);
-
-    expect(dummyLicitacion.id).toBe(1);
+    component.obtenerLicitacion();
+    expect(component.licitacionForm.value.id).toBe(1);
   });
 
   it('deberia editar una licitacion', () => {
-    route.snapshot.params.id = '1';
     spyOn(licitacionService, 'editar').and.returnValue(of(true));
     expect(component.licitacionForm.valid).toBeFalsy();
 
-    const licitacion = new Licitacion(
-      1, 'CODIGO1', 'TITULO_LICITACION1', 'DESCRIPCION1',
-      1000, new Date('2021-08-01'), new Date('2021-08-31'), 0
-    );
-
-    component.currentLicitacionId = licitacion.id;
-    component.licitacionForm.controls.id.setValue(licitacion.id);
-    component.licitacionForm.controls.codigo.setValue(licitacion.codigo);
-    component.licitacionForm.controls.nombre.setValue(licitacion.nombre);
-    component.licitacionForm.controls.descripcion.setValue(licitacion.descripcion);
-    component.licitacionForm.controls.fechaInicio.setValue(licitacion.fechaInicio);
-    component.licitacionForm.controls.fechaFin.setValue(licitacion.fechaFin);
-    component.licitacionForm.controls.presupuesto.setValue(licitacion.presupuesto);
-    component.licitacionForm.controls.estado.setValue(licitacion.estado);
+    component.currentLicitacionId = dummyLicitacion.id;
+    component.licitacionForm.controls.id.setValue(dummyLicitacion.id);
+    component.licitacionForm.controls.codigo.setValue(dummyLicitacion.codigo);
+    component.licitacionForm.controls.nombre.setValue(dummyLicitacion.nombre);
+    component.licitacionForm.controls.descripcion.setValue(dummyLicitacion.descripcion);
+    component.licitacionForm.controls.fechaInicio.setValue(dummyLicitacion.fechaInicio);
+    component.licitacionForm.controls.fechaFin.setValue(dummyLicitacion.fechaFin);
+    component.licitacionForm.controls.presupuesto.setValue(dummyLicitacion.presupuesto);
+    component.licitacionForm.controls.estado.setValue(dummyLicitacion.estado);
     expect(component.licitacionForm.valid).toBeTruthy();
     component.editarLicitacion();
 
@@ -109,24 +103,18 @@ describe('EditarLicitacionComponent', () => {
   });
 
   it('deberia retornar error al editar una licitacion', () => {
-    route.snapshot.params.id = '1';
     spyOn(licitacionService, 'editar').and.returnValue(throwError(THROW_ERROR));
     expect(component.licitacionForm.valid).toBeFalsy();
 
-    const licitacion = new Licitacion(
-      1, 'CODIGO1', 'TITULO_LICITACION1', 'DESCRIPCION1',
-      1000, new Date('2021-08-01'), new Date('2021-08-31'), 0
-    );
-
-    component.currentLicitacionId = licitacion.id;
-    component.licitacionForm.controls.id.setValue(licitacion.id);
-    component.licitacionForm.controls.codigo.setValue(licitacion.codigo);
-    component.licitacionForm.controls.nombre.setValue(licitacion.nombre);
-    component.licitacionForm.controls.descripcion.setValue(licitacion.descripcion);
-    component.licitacionForm.controls.fechaInicio.setValue(licitacion.fechaInicio);
-    component.licitacionForm.controls.fechaFin.setValue(licitacion.fechaFin);
-    component.licitacionForm.controls.presupuesto.setValue(licitacion.presupuesto);
-    component.licitacionForm.controls.estado.setValue(licitacion.estado);
+    component.currentLicitacionId = dummyLicitacion.id;
+    component.licitacionForm.controls.id.setValue(dummyLicitacion.id);
+    component.licitacionForm.controls.codigo.setValue(dummyLicitacion.codigo);
+    component.licitacionForm.controls.nombre.setValue(dummyLicitacion.nombre);
+    component.licitacionForm.controls.descripcion.setValue(dummyLicitacion.descripcion);
+    component.licitacionForm.controls.fechaInicio.setValue(dummyLicitacion.fechaInicio);
+    component.licitacionForm.controls.fechaFin.setValue(dummyLicitacion.fechaFin);
+    component.licitacionForm.controls.presupuesto.setValue(dummyLicitacion.presupuesto);
+    component.licitacionForm.controls.estado.setValue(dummyLicitacion.estado);
     expect(component.licitacionForm.valid).toBeTruthy();
 
     component.editarLicitacion();

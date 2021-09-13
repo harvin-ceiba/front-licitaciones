@@ -42,7 +42,7 @@ describe('ListarPropuestaComponent', () => {
         HttpClientModule,
         RouterTestingModule
       ],
-      providers: [PropuestaService, HttpService]
+      providers: [HttpService, PropuestaService]
     })
     .compileComponents();
   });

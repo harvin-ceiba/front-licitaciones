@@ -18,7 +18,6 @@ import { VerLicitacionComponent } from './ver-licitacion.component';
 describe('VerLicitacionComponent', () => {
   let component: VerLicitacionComponent;
   let fixture: ComponentFixture<VerLicitacionComponent>;
-  let route: ActivatedRoute;
   let licitacionService: LicitacionService;
   let propuestaService: PropuestaService;
   let licitacionRequerimientoService: LicitacionRequerimientoService;
@@ -56,11 +55,8 @@ describe('VerLicitacionComponent', () => {
         LicitacionRequerimientoModule
       ],
       providers: [
-        LicitacionService, PropuestaService, LicitacionRequerimientoService, HttpService,
-        {
-          provide: ActivatedRoute,
-          useValue: { snapshot: { params: { id: 1} } }
-        }
+        HttpService, LicitacionService, PropuestaService, LicitacionRequerimientoService, 
+        { provide: ActivatedRoute, useValue: { snapshot: { params: { id: 1} } } }
       ]
     })
     .compileComponents();
@@ -69,7 +65,6 @@ describe('VerLicitacionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VerLicitacionComponent);
     component = fixture.componentInstance;
-    route = TestBed.inject(ActivatedRoute);
     licitacionService = TestBed.inject(LicitacionService);
     propuestaService = TestBed.inject(PropuestaService);
     licitacionRequerimientoService = TestBed.inject(LicitacionRequerimientoService);
@@ -84,7 +79,6 @@ describe('VerLicitacionComponent', () => {
 
   it('deberia obtener la informacion de la licitacion', () => {
     // Arrange
-    route.snapshot.params.id = '1';
     spyOn(licitacionService, 'consultarPorId').and.returnValue(of(dummyLicitacion));
     // Act
     component.obtenerLicitacion();

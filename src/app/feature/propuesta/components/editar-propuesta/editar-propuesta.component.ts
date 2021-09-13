@@ -35,8 +35,9 @@ export class EditarPropuestaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.currentPropuestaId = this.route.snapshot.params.id;
     this.construirFormulario();
-    this.obtenerPropuesta(this.route.snapshot.params.id);
+    this.obtenerPropuesta();
   }
 
   private construirFormulario() {
@@ -61,11 +62,16 @@ export class EditarPropuestaComponent implements OnInit {
     });
   }
 
-  obtenerPropuesta(id: number): void {
-    this.currentPropuestaId = id;
-    this.propuestaService.consultarPorId(id).subscribe(data => {
-      this.propuestaForm.patchValue(data);
-    });
+  obtenerPropuesta(): void {
+    this.propuestaService.consultarPorId(this.currentPropuestaId).subscribe(
+      data => {
+        this.propuestaForm.patchValue(data);
+      }, 
+      error => {
+        this.showMessage = VALOR_MOSTRAR_MENSAJE;
+        this.typeMessage = VALOR_TIPO_MENSAJE_ERROR;
+        this.message = error.error.mensage;
+      });
   }
 
   editarPropuesta() {

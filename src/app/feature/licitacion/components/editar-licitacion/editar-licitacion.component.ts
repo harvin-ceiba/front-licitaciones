@@ -35,8 +35,9 @@ export class EditarLicitacionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.currentLicitacionId = this.route.snapshot.params.id;
     this.construirFormulario();
-    this.obtenerLicitacion(this.route.snapshot.params.id);
+    this.obtenerLicitacion();
   }
 
   private construirFormulario() {
@@ -60,9 +61,8 @@ export class EditarLicitacionComponent implements OnInit {
     });
   }
 
-  obtenerLicitacion(id: number): void {
-    this.currentLicitacionId = id;
-    this.licitacionService.consultarPorId(id).subscribe(
+  obtenerLicitacion(): void {
+    this.licitacionService.consultarPorId(this.currentLicitacionId).subscribe(
         data => {
           this.licitacionForm.patchValue(data);
         },

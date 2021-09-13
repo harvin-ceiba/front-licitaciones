@@ -15,9 +15,13 @@ import { VerPropuestaComponent } from './ver-propuesta.component';
 describe('VerPropuestaComponent', () => {
   let component: VerPropuestaComponent;
   let fixture: ComponentFixture<VerPropuestaComponent>;
-  let route: ActivatedRoute;
   let propuestaService: PropuestaService;
   let propuestaRequerimientoService: PropuestaRequerimientoService;
+
+  const dummyPropuesta = new Propuesta(
+    1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10,
+    new Date('2021-09-01'), new Date('2021-09-15'), 1
+  );
 
   const dummyRequerimientosPropuesta: PropuestaRequerimiento[] = [
     new PropuestaRequerimiento(1, 1, 1),
@@ -34,13 +38,8 @@ describe('VerPropuestaComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        PropuestaService, PropuestaRequerimientoService, HttpService,
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: { params: { id: 1} },
-          }
-        }
+        HttpService, PropuestaService, PropuestaRequerimientoService, 
+        { provide: ActivatedRoute, useValue: { snapshot: { params: { id: 1} } } }
       ]
     })
     .compileComponents();
@@ -49,7 +48,6 @@ describe('VerPropuestaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VerPropuestaComponent);
     component = fixture.componentInstance;
-    route = TestBed.inject(ActivatedRoute);
     propuestaService = TestBed.inject(PropuestaService);
     propuestaRequerimientoService = TestBed.inject(PropuestaRequerimientoService);
     spyOn(propuestaRequerimientoService, 'consultar').and.returnValue(of(dummyRequerimientosPropuesta));
@@ -62,11 +60,6 @@ describe('VerPropuestaComponent', () => {
 
   it('deberia obtener la informacion de la propuesta', () => {
     // Arrange
-    route.snapshot.params.id = '1';
-    const dummyPropuesta = new Propuesta(
-      1, 1, 'PROPUESTA 1', 'DESCRIPCION1', 'NOMBRE CLIENTE 1', 1000, 10,
-      new Date('2021-09-01'), new Date('2021-09-15'), 1
-    );
     spyOn(propuestaService, 'consultarPorId').and.returnValue(of(dummyPropuesta));
     // Act
     component.obtenerPropuesta(1);
@@ -75,7 +68,6 @@ describe('VerPropuestaComponent', () => {
   });
 
   it('deberia obtener el listado de requerimientos asociados a la propuesta', () => {
-    route.snapshot.params.id = '1';
     component.listaRequerimientosPropuesta.subscribe(resultado => {
       expect(3).toBe(resultado.length);
     });
