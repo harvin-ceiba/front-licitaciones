@@ -58,7 +58,9 @@ pipeline {
 
     stage('Unit Test') {
       steps {
-        sh 'ng test --browsers ChromeHeadless --progress=false --watch false --code-coverage'
+        echo '------------>Testing<------------'
+        echo 'npm run test --browsers ChromeHeadless --progress=false --watch false --code-coverage'
+        sh 'ng test --code-coverage'
       }
     }
 

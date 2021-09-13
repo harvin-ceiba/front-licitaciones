@@ -71,6 +71,10 @@ describe('EditarPropuestaComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('formulario es invalido cuando esta vacio', () => {
+    expect(component.propuestaForm.valid).toBeFalsy();
+  });
+
   it('deberia consultar una propuesta', () => {   
     spyOn(propuestaService, 'consultarPorId').and.returnValue(of(dummyPropuesta));
     component.obtenerPropuesta();
